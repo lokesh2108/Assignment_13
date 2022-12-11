@@ -10,7 +10,7 @@ app.use(express.static(__dirname))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 
-//Connection to MongoDB
+//Connecting MongoDB
 mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
     console.log("MongoDB connection : ", err)
 })
@@ -27,7 +27,7 @@ var Product = mongoose.model('product', {
     }
 });
 
-//Get Products API
+// Product API
 app.get('/product/get/', (req, res) => {
     Product.find({}, (err, products) => {
         let productsToDisplay = {};
@@ -38,7 +38,7 @@ app.get('/product/get/', (req, res) => {
     })
 })
 
-//Create Product API
+//Create  API
 app.post('/product/create', (req, res) => {
     var product = new Product(req.body)
     product.save((err) => {
@@ -50,14 +50,14 @@ app.post('/product/create', (req, res) => {
     })
 })
 
-//Update Product API
+//Update  API
 app.post('/product/update/:id', (req, res) => {
     Product.updateOne(req.params, req.body, (err, data) => {
         res.redirect('/product/get');        
     })
 })
 
-//Delete Product API
+//Delete API
 app.get('/product/delete/:id', (req, res) => {
     Product.deleteOne(req.params, (err, data) => {
         res.redirect('/product/get');        
